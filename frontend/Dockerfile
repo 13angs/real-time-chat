@@ -4,6 +4,8 @@ WORKDIR /app
 COPY ./package*.json ./
 RUN npm install
 COPY ./ ./
+RUN rm -rf .env && \
+    mv .env.sample .env
 RUN npm run build
 
 # runtime stage

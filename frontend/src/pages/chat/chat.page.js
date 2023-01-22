@@ -15,7 +15,7 @@ const ChatPage = () => {
 
   const apiUrl = process.env.REACT_APP_API_URL;
   const messUrl = `${apiUrl}/api/v1/messages`;
-  const chatUrl = `${apiUrl}/chat`;
+  const chatUrl = `${apiUrl}/hub/chat`;
 
   React.useEffect(() => {
     const fetchMessage = async (url) => {

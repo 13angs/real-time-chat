@@ -12,6 +12,17 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.2" />
+
   </ItemGroup>
+
+  <!-- <ItemGroup> 
+    <Content Include="data\**"> 
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory> 
+    </Content> 
+  </ItemGroup> -->
+
+  <Target Name="CreateDataFolder" AfterTargets="AfterPublish">
+    <MakeDir Directories="$(PublishDir)data" Condition="!Exists('$(PublishDir)data')" /> 
+  </Target>
 
 </Project>

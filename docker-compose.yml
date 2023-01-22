@@ -8,6 +8,10 @@ services:
       dockerfile: ./Dockerfile
     networks:
       - real-time-chat-network
+    volumes:
+      - type: bind
+        source: ./data
+        target: /backend/data
   app:
     image: real-time-chat:latest
     build: 

@@ -22,8 +22,8 @@ var env = builder.Environment;
 
 builder.Services.AddDbContext<BackendDbContext>(options =>
 {
-    // string DbPath = System.IO.Path.Join(env.ContentRootPath, "data", "chat.db");
-    options.UseSqlite($"Data Source=chat.db");
+    string DbPath = System.IO.Path.Join(env.ContentRootPath, "data", "chat.db");
+    options.UseSqlite($"Data Source={DbPath}");
 });
 
 builder.Services.AddSignalR();
@@ -41,7 +41,7 @@ app.MapGet("/api/v1/messages", (BackendDbContext dbContext)=> {
   return dbContext.Messages;
 });
 
-app.MapHub<ChatHub>("/chat");
+app.MapHub<ChatHub>("/hub/chat");
 
 app.UseCors(configuration["CorsName"]!);
 
