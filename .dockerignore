@@ -1,0 +1,6 @@
+**bin/
+**obj/
+**.gitignore
+**node_modules/
+**.db
+**.env
