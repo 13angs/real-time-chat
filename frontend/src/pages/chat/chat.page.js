@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './chat.page.css';
+import {HubConnectionBuilder, HttpTransportType} from '@microsoft/signalr';
 
 const ChatPage = () => {
   const [messages, setMessages] = useState([
@@ -7,15 +8,38 @@ const ChatPage = () => {
     // {id: 2, text: 'Hi', user: 'Jane Smith', avatar: 'https://via.placeholder.com/50x50'},
   ]);
   const [currentMessage, setCurrentMessage] = useState('');
+  const [connection, setConnection] = React.useState(null);
+
   const [users, setUsers] = useState([
     {id: 1, name: 'John Doe', avatar: 'https://via.placeholder.com/50x50'},
     {id: 2, name: 'Jane Smith', avatar: 'https://via.placeholder.com/50x50'},
     {id: 3, name: 'Bob', avatar: 'https://via.placeholder.com/50x50'},
   ]);
 
+  React.useEffect(() => {
+    const chatUrl = process.env.REACT_APP_HUB_URL;
+    const newConnection = new HubConnectionBuilder()
+      .withUrl(chatUrl, {
+        skipNegotiation: true,
+        transport: HttpTransportType.WebSockets
+      })
+      .build();
+    
+      newConnection.start().catch(err => {
+        console.log(err);
+      });
+      setConnection(newConnection);
+
+      return () => {
+        newConnection.stop();
+      }
+
+  }, [])
+
   const handleSubmit = (event) => {
     event.preventDefault();
     setMessages([...messages, {id: Date.now(), text: currentMessage, user: 'Your Name', avatar: 'https://via.placeholder.com/50x50'}]);
+    connection.invoke("SendMessage", "client", "hello world");
     setCurrentMessage('');
   }
 
