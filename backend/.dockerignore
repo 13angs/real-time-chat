@@ -2,4 +2,4 @@
 **obj/
 **.gitignore
 **node_modules/
-**.db
+**.db*

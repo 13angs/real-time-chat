@@ -22,8 +22,8 @@ var env = builder.Environment;
 
 builder.Services.AddDbContext<BackendDbContext>(options =>
 {
-    string DbPath = System.IO.Path.Join(env.ContentRootPath, "data", "chat.db");
-    options.UseSqlite($"Data Source={DbPath}");
+    // string DbPath = System.IO.Path.Join(env.ContentRootPath, "data", "chat.db");
+    options.UseSqlite($"Data Source=chat.db");
 });
 
 builder.Services.AddSignalR();
@@ -44,4 +44,13 @@ app.MapGet("/api/v1/messages", (BackendDbContext dbContext)=> {
 app.MapHub<ChatHub>("/chat");
 
 app.UseCors(configuration["CorsName"]!);
+
+
+// migrate the database on startup
+using(var scope = app.Services.CreateScope())
+{
+  BackendDbContext dbContext = scope.ServiceProvider.GetRequiredService<BackendDbContext>();
+  dbContext.Database.Migrate();
+  // dbContext.Database.EnsureCreated();
+}
 app.Run();
