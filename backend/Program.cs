@@ -15,7 +15,7 @@ app.UseEndpoints(endpoints => {
     endpoints.MapHub<ChatHub>("/chat");
 });
 
-app.MapGet("/", () => "Hello World!");
+app.MapGet("/api/v1", () => "Chat is running!");
 
 
 app.Run();

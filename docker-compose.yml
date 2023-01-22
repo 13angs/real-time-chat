@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  api:
+    image: real-time-chat-api:latest
+    build: 
+      context: ./backend
+      dockerfile: ./Dockerfile
+    networks:
+      - real-time-chat-network
+  app:
+    image: real-time-chat:latest
+    build: 
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    networks:
+      - real-time-chat-network
+    ports:
+      - "3000:80"
+
+networks:
+  real-time-chat-network:
+    name: real-time-chat-network
