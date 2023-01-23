@@ -2,7 +2,6 @@ using AutoMapper;
 using backend.DTOs;
 using backend.Interfaces;
 using backend.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services
@@ -50,6 +49,21 @@ namespace backend.Services
         public IEnumerable<User> GetUsers()
         {
             return dbContext.Users;
+        }
+    
+        public async Task<User> GetUser(int id)
+        {
+            try{
+                User? user = await dbContext.Users
+                    .FirstOrDefaultAsync(u => u.Id == id);
+                
+                if(user != null)
+                    return user;
+                throw new Exception("User not found");
+            }catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
     }
 }

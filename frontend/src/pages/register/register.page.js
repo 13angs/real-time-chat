@@ -29,9 +29,9 @@ const RegisterPage = () => {
     <div className="register-page">
       <div className="register-form">
         <form onSubmit={createUser}>
-          <label>
+          {/* <label>
             Name:
-          </label>
+          </label> */}
           <input 
             type="text" 
             name="name"

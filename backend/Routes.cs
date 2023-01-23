@@ -22,6 +22,11 @@ namespace backend
                 return user.GetUsers();
             });
 
+            app.MapGet("/api/v1/users/{userId}", (IUser user, [FromRoute] int userId) =>
+            {
+                return user.GetUser(userId);
+            });
+
             app.MapPost("/api/v1/users", async (IUser user, [FromBody] UserModel model) =>
             {
                 return await user.CreateUser(model);

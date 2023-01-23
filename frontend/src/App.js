@@ -17,12 +17,16 @@ const router = createBrowserRouter([
     element: <RegisterPage />,
   },
   {
-    path: "/",
+    path: "/:id",
     element: 
     <Protected isSignedIn={userId}>
-      <ChatPage />
+      <ChatPage userId={userId} />
     </Protected>
-  }
+  },
+  {
+    path: "/",
+    element: <RegisterPage />,
+  },
 ]);
 
 function App() {

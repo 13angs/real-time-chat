@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import './chat.page.css';
 import Axios from '../../backend/Axios';
+import {UserAPI} from '../../backend/api';
 import { HubConnectionBuilder, HttpTransportType } from '@microsoft/signalr';
+import {useParams} from 'react-router-dom';
 
-const ChatPage = () => {
-  const [messages, setMessages] = useState([
-    // {id: 1, text: 'Hello', user: 'John Doe', avatar: 'https://via.placeholder.com/50x50'},
-    // {id: 2, text: 'Hi', user: 'Jane Smith', avatar: 'https://via.placeholder.com/50x50'},
-  ]);
+const ChatPage = ({userId}) => {
+  const [messages, setMessages] = useState([]);
+  const {id} = useParams();
   const [currentMessage, setCurrentMessage] = useState('');
   const [connection, setConnection] = React.useState(null);
 
   const [users, setUsers] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
 
   const apiUrl = process.env.REACT_APP_API_URL;
   const messUrl = `${apiUrl}/api/v1/messages`;
@@ -30,6 +31,11 @@ const ChatPage = () => {
       }
     }
 
+    const fetchUser = () => {
+      const user = new UserAPI();
+      user.getUser(id, setCurrentUser)
+    }
+
     const fetchUsers = async (url) => {
       try {
         const res = await Axios.get(url);
@@ -44,7 +50,8 @@ const ChatPage = () => {
 
     fetchMessage('/api/v1/messages');
     fetchUsers('/api/v1/users');
-  }, [messUrl])
+    fetchUser();
+  }, [messUrl, id])
 
   React.useEffect(() => {
     const fetchMessage = async (url) => {
@@ -103,7 +110,7 @@ const ChatPage = () => {
       </div>
       <div className="chat-messages-container">
         <div className="chat-header">
-          <h2>Chat Room</h2>
+          <h2>Login as {currentUser ? currentUser['name'] : "Guest"}</h2>
         </div>
         <div className="chat-messages">
           {messages.map((message) => (

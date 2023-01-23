@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import './login.page.css';
 import { UserAPI, LoginAPI } from '../../backend/api';
+import {Link} from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 const LoginPage = () => {
@@ -10,7 +11,7 @@ const LoginPage = () => {
 
     React.useEffect(() => {
         const user = new UserAPI();
-        user.get(setUsers);
+        user.getUsers(setUsers);
     }, [])
 
     const handleLogin = (event, userId) => {
@@ -24,6 +25,7 @@ const LoginPage = () => {
             {userId ? <h3>User already logged in!</h3> :
                 <div className='login-user-list-wrapper'>
                     <h2>Switch accounts</h2>
+                    <span>or <Link to='/register'>Create a new one</Link></span>
                     <div className="login-user-list">
                         {users.map(user => (
                             <div className="user" key={user.id}>

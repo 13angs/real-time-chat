@@ -3,11 +3,13 @@
     text-align: center;
 }
 
+
 .login-user-list {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     align-items: center;
+    margin-top: 10px;
 }
 
 .login-user-list .user {

@@ -13,7 +13,7 @@ class BackendAPI{
 
 // user api
 class UserAPI extends BackendAPI {
-    async get(callback){
+    async getUsers(callback){
         try {
             const endpoint = this.getFullEndpoint('users');
             const res = await Axios.get(endpoint);
@@ -24,7 +24,22 @@ class UserAPI extends BackendAPI {
             }
         }catch (err){
             console.log(err);
-            callback([]);
+            callback(null);
+        }
+    }
+
+    async getUser(userId, callback){
+        try {
+            const endpoint = this.getFullEndpoint('users');
+            const res = await Axios.get(`${endpoint}/${userId}`);
+
+            if(res.status === 200)
+            {
+                callback(res.data);
+            }
+        }catch (err){
+            console.log(err);
+            callback(null);
         }
     }
 }
@@ -44,7 +59,7 @@ class LoginAPI extends BackendAPI {
 
                 if(Cookies.set('login-user-id'))
                 {
-                    window.location.href = '/'
+                    window.location.href = `/${userId}`
                 }
             }
         }catch (err){
