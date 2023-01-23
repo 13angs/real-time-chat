@@ -40,7 +40,9 @@ builder.Services.AddControllers()
 );
 
 builder.Services.AddSignalR();
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IMessage, MessageService>();
+builder.Services.AddScoped<IUser, UserService>();
 
 var app = builder.Build();
 
@@ -48,6 +50,7 @@ app.UseRouting();
 
 // all the routes
 Routes.Message(app);
+Routes.User(app);
 
 app.MapHub<ChatHub>("/hub/chat");
 

@@ -1,4 +1,6 @@
+using backend.DTOs;
 using backend.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace backend
 {
@@ -15,9 +17,14 @@ namespace backend
 
         public static void User(WebApplication app)
         {
-            app.MapPost("/api/v1/users", (IMessage message) =>
+            app.MapGet("/api/v1/users", (IUser user) =>
             {
-                return message.GetMessages();
+                return user.GetUsers();
+            });
+
+            app.MapPost("/api/v1/users", async (IUser user, [FromBody] UserModel model) =>
+            {
+                return await user.CreateUser(model);
             });
         }
     }

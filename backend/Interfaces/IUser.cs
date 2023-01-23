@@ -1,9 +1,11 @@
 using backend.DTOs;
+using backend.Models;
 
 namespace backend.Interfaces
 {
     public interface IUser
     {
-        public UserModel CreateUser(UserModel model);
+        public Task<User> CreateUser(UserModel model);
+        public IEnumerable<User> GetUsers();
     }
 }
