@@ -1,7 +1,11 @@
 // configure the SignalR in the startup class
 using backend;
+using backend.Hubs;
+using backend.Interfaces;
 using backend.Models;
+using backend.Services;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 IConfiguration configuration = builder.Configuration;
@@ -26,20 +30,29 @@ builder.Services.AddDbContext<BackendDbContext>(options =>
     options.UseSqlite($"Data Source={DbPath}");
 });
 
+// configure controller to use Newtonsoft as a default serializer
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options =>
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft
+            .Json.ReferenceLoopHandling.Ignore)
+                .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
+                    = new DefaultContractResolver()
+);
+
 builder.Services.AddSignalR();
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+builder.Services.AddScoped<IMessage, MessageService>();
+builder.Services.AddScoped<ILogin, LoginService>();
+builder.Services.AddScoped<IUser, UserService>();
 
 var app = builder.Build();
 
 app.UseRouting();
 
-// using the UseEndpoints extension method to map the ChatHub to the /chat 
-// app.UseEndpoints(endpoints => {
-//     endpoints.MapHub<ChatHub>("/chat");
-// });
-app.MapGet("/api/v1", () => "Chat is running!");
-app.MapGet("/api/v1/messages", (BackendDbContext dbContext)=> {
-  return dbContext.Messages;
-});
+// all the routes
+Routes.Message(app);
+Routes.User(app);
+Routes.Login(app);
 
 app.MapHub<ChatHub>("/hub/chat");
 
@@ -51,6 +64,5 @@ using(var scope = app.Services.CreateScope())
 {
   BackendDbContext dbContext = scope.ServiceProvider.GetRequiredService<BackendDbContext>();
   dbContext.Database.Migrate();
-  // dbContext.Database.EnsureCreated();
 }
 app.Run();

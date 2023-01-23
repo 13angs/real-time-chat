@@ -2,7 +2,7 @@
 using backend.Models;
 using Microsoft.AspNetCore.SignalR;
 
-namespace backend {
+namespace backend.Hubs {
     public class ChatHub : Hub
     {
         private readonly BackendDbContext dbContext;
