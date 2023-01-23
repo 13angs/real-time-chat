@@ -29,9 +29,9 @@ namespace backend
         }
         public static void Login(WebApplication app)
         {
-            app.MapPost("/api/v1/login/{userId}", ([FromRoute] string userId) =>
+            app.MapPost("/api/v1/login/{userId}", (ILogin login, [FromRoute] int userId) =>
             {
-                return new {user_id=userId, message="Successfully login!"};
+                return login.Login(userId);
             });
 
         }

@@ -41,6 +41,11 @@ class LoginAPI extends BackendAPI {
                 {
                     Cookies.set('login-user-id', res.data['user_id'], { expires: 0.01 })
                 }
+
+                if(Cookies.set('login-user-id'))
+                {
+                    window.location.href = '/'
+                }
             }
         }catch (err){
             console.log(err);

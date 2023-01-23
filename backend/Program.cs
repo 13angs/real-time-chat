@@ -42,6 +42,7 @@ builder.Services.AddControllers()
 builder.Services.AddSignalR();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IMessage, MessageService>();
+builder.Services.AddScoped<ILogin, LoginService>();
 builder.Services.AddScoped<IUser, UserService>();
 
 var app = builder.Build();
