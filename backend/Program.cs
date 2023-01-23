@@ -1,5 +1,6 @@
 // configure the SignalR in the startup class
 using backend;
+using backend.Hubs;
 using backend.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,14 +33,8 @@ var app = builder.Build();
 
 app.UseRouting();
 
-// using the UseEndpoints extension method to map the ChatHub to the /chat 
-// app.UseEndpoints(endpoints => {
-//     endpoints.MapHub<ChatHub>("/chat");
-// });
-app.MapGet("/api/v1", () => "Chat is running!");
-app.MapGet("/api/v1/messages", (BackendDbContext dbContext)=> {
-  return dbContext.Messages;
-});
+// all the routes
+Routes.Message(app);
 
 app.MapHub<ChatHub>("/hub/chat");
 
@@ -51,6 +46,5 @@ using(var scope = app.Services.CreateScope())
 {
   BackendDbContext dbContext = scope.ServiceProvider.GetRequiredService<BackendDbContext>();
   dbContext.Database.Migrate();
-  // dbContext.Database.EnsureCreated();
 }
 app.Run();
