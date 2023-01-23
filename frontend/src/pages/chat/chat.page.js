@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './chat.page.css';
-import axios from 'axios';
+import Axios from '../../backend/Axios';
 import { HubConnectionBuilder, HttpTransportType } from '@microsoft/signalr';
 
 const ChatPage = () => {
@@ -20,7 +20,7 @@ const ChatPage = () => {
   React.useEffect(() => {
     const fetchMessage = async (url) => {
       try {
-        const res = await axios.get(url);
+        const res = await Axios.get(url);
         if (res.status === 200) {
           const data = res.data;
           setMessages(data);
@@ -30,13 +30,26 @@ const ChatPage = () => {
       }
     }
 
-    fetchMessage(messUrl);
+    const fetchUsers = async (url) => {
+      try {
+        const res = await Axios.get(url);
+        if (res.status === 200) {
+          const data = res.data;
+          setUsers(data);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    fetchMessage('/api/v1/messages');
+    fetchUsers('/api/v1/users');
   }, [messUrl])
 
   React.useEffect(() => {
     const fetchMessage = async (url) => {
       try {
-        const res = await axios.get(url);
+        const res = await Axios.get(url);
         if (res.status === 200) {
           const data = res.data;
           setMessages(data);
@@ -58,7 +71,7 @@ const ChatPage = () => {
     });
     setConnection(newConnection);
     newConnection.on("ReceiveMessage", async () => {
-      fetchMessage(messUrl);
+      fetchMessage('/api/v1/messages');
     });
 
     return () => {
