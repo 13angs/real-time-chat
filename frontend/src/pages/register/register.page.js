@@ -45,7 +45,7 @@ const RegisterPage = () => {
         </form>
       </div>
       <div className="chat-btn">
-        <Link to={"/"}>Go to chat</Link>
+        <Link to={"/login"}>Login</Link>
       </div>
     </div>
   );

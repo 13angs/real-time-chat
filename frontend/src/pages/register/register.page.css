@@ -18,6 +18,11 @@
 
 .chat-btn {
     margin-top: 10px;
+    text-align: center;
+}
+
+.chat-btn a {
+    text-decoration: none;
 }
 
 .register-form label {
