@@ -51,6 +51,7 @@ app.UseRouting();
 // all the routes
 Routes.Message(app);
 Routes.User(app);
+Routes.Login(app);
 
 app.MapHub<ChatHub>("/hub/chat");
 

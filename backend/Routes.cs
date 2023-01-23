@@ -27,5 +27,13 @@ namespace backend
                 return await user.CreateUser(model);
             });
         }
+        public static void Login(WebApplication app)
+        {
+            app.MapPost("/api/v1/login/{userId}", ([FromRoute] string userId) =>
+            {
+                return new {user_id=userId, message="Successfully login!"};
+            });
+
+        }
     }
 }

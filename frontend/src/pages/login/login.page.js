@@ -1,14 +1,16 @@
 /* Update the JSX */
 import React, { useState } from 'react';
 import './login.page.css';
-import { UserAPI } from '../../backend/api';
+import { UserAPI, LoginAPI } from '../../backend/api';
 
 const LoginPage = () => {
     const [users, setUsers] = useState([]);
 
     React.useEffect(() => {
         const user = new UserAPI();
+        const login = new LoginAPI();
         user.get(setUsers);
+        login.post();
     }, [])
 
     return (

@@ -1,4 +1,5 @@
 import Axios from '../backend/Axios';
+import Cookies from 'js-cookie';
 
 class BackendAPI{
     apiUrl = process.env.REACT_APP_API_URL;
@@ -28,4 +29,23 @@ class UserAPI extends BackendAPI {
     }
 }
 
-export {UserAPI};
+class LoginAPI extends BackendAPI {
+    async post(userId="user_id_here"){
+        try {
+            const endpoint = this.getFullEndpoint('login');
+            const res = await Axios.post(`${endpoint}/${userId}`);
+
+            if(res.status === 200)
+            {
+                if(res.data)
+                {
+                    Cookies.set('login-user-id', res.data['user_id'], { expires: 0.01 })
+                }
+            }
+        }catch (err){
+            console.log(err);
+        }
+    }
+}
+
+export {UserAPI, LoginAPI};
