@@ -11,9 +11,27 @@ namespace backend.Services
         {
             this.dbContext = dbContext;
         }
-        public IEnumerable<Message> GetMessages()
+        public IEnumerable<Message> GetMessages(int from, int to)
         {
-            return dbContext.Messages;
+            try{
+                // get the user by from 
+                User? user = dbContext.Users
+                    .FirstOrDefault(u => u.Id == from);
+                
+                if(user == null)
+                    throw new Exception("User doesn't exist!");
+                
+                // get the message by user.id and to
+                IEnumerable<Message> messages = dbContext.Messages
+                    .Where(m => m.From == user.Id &&
+                        m.To == to
+                    );
+                
+                return messages;
+
+            }catch (Exception e){
+                throw new Exception(e.Message);
+            }
         }
     }
 }

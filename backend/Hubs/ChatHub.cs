@@ -11,19 +11,19 @@ namespace backend.Hubs {
         {
             this.dbContext = dbContext;
         }
-        public async Task SendMessage(string user, string message)
+        public async Task SendMessage(int from, int to, string message)
         {
-            Console.WriteLine($"{user}: {message}");
+            Console.WriteLine($"{from}: {message}");
             Message newMessage = new Message{
-                From=user,
-                To="server",
+                From=from,
+                To=to,
                 Text=message
             };
 
             dbContext.Messages.Add(newMessage);
             await dbContext.SaveChangesAsync();
             
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
+            await Clients.All.SendAsync("ReceiveMessage", from, message);
         }
 
         public async Task SendNotification(string user, string message)

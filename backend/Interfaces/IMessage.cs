@@ -4,6 +4,6 @@ namespace backend.Interfaces
 {
     public interface IMessage
     {
-        public IEnumerable<Message> GetMessages();
+        public IEnumerable<Message> GetMessages(int from, int to);
     }
 }
