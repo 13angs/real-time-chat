@@ -9,9 +9,9 @@ namespace backend
         public static void Message(WebApplication app)
         {
             app.MapGet("/api/v1", () => "Chat is running!");
-            app.MapGet("/api/v1/messages", (IMessage message) =>
+            app.MapGet("/api/v1/messages/{from}", (IMessage message, [FromRoute] int from, [FromQuery] int to) =>
             {
-                return message.GetMessages();
+                return message.GetMessages(from, to);
             });
         }
 

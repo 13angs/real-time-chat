@@ -21,6 +21,7 @@
     padding: 10px;
     background-color: #fff;
     align-items: center;
+    cursor: pointer;
 }
 
 .avatar {

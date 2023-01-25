@@ -14,6 +14,13 @@ const RegisterPage = () => {
       const body = {
         name: userName
       }
+
+      // when register the input can not be empty
+      if(userName.length < 1)
+      {
+        alert('Name can not be empty')
+        return;
+      }
       const res = await Axios.post(userMethod, body)
       if(res.status === 200)
       {

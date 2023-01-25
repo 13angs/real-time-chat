@@ -4,6 +4,7 @@ import LoginPage from './pages/login/login.page';
 import Protected from './routes/ProtectedRoute';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import routes from './routes/routes';
 
 const userId = Cookies.get('login-user-id');
 
@@ -17,7 +18,7 @@ const router = createBrowserRouter([
     element: <RegisterPage />,
   },
   {
-    path: "/:id",
+    path: routes.chat.path,
     element: 
     <Protected isSignedIn={userId}>
       <ChatPage userId={userId} />

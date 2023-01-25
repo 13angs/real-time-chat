@@ -6,10 +6,10 @@ namespace backend.DTOs
     public class MessageModel : BaseEntity
     {
         [JsonProperty("from")]
-        public string? From { get; set; }
+        public int From { get; set; }
 
         [JsonProperty("to")]
-        public string? To { get; set; }
+        public int To { get; set; }
 
         [JsonProperty("text")]
         public string? Text { get; set; }
