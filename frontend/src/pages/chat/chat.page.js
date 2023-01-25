@@ -53,9 +53,8 @@ function UserList({from}) {
 }
 
 // get and display the chat messages
-function ChatMessage({userId}) {
-  const searchParams = useSearchParams();
-  const allParams = searchParams[0];
+function ChatMessage({userId, to}) {
+  
   const [messages, setMessages] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -84,9 +83,9 @@ function ChatMessage({userId}) {
       user.getUser(userId, setCurrentUser)
     }
 
-    fetchMessage('/api/v1/messages');
+    fetchMessage(`/api/v1/messages/${userId}?to=${to}`);
     fetchUser();
-  }, [messUrl, userId])
+  }, [messUrl, userId, to])
 
   React.useEffect(() => {
     const fetchMessage = async (url) => {
@@ -113,18 +112,18 @@ function ChatMessage({userId}) {
     });
     setConnection(newConnection);
     newConnection.on("ReceiveMessage", async () => {
-      fetchMessage('/api/v1/messages');
+      fetchMessage(`/api/v1/messages/${userId}?to=${to}`);
     });
 
     return () => {
       newConnection.stop();
     }
 
-  }, [messUrl, chatUrl])
+  }, [messUrl, chatUrl, userId, to])
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    connection.invoke("SendMessage", "client", currentMessage);
+    connection.invoke("SendMessage", userId, to, currentMessage);
     setCurrentMessage('');
   }
 
@@ -133,7 +132,7 @@ function ChatMessage({userId}) {
       <h2>Login as {currentUser ? currentUser['name'] : "Guest"}</h2>
     </div>
     <div className="chat-messages">
-      {allParams.get('to') && messages.map((message) => (
+      {to && messages.map((message) => (
         <div key={message.id} className="message">
           <img src={'https://via.placeholder.com/50x50'} alt={'https://via.placeholder.com/50x50'} className="avatar" />
           <div className="message-text">
@@ -157,10 +156,12 @@ function ChatMessage({userId}) {
 
 const ChatPage = () => {
   const { id } = useParams();
+  const searchParams = useSearchParams();
+  const allParams = searchParams[0];
   return (
     <div className="chat-container">
       <UserList from={id} />
-      <ChatMessage userId={id}/>
+      <ChatMessage userId={id} to={allParams.get('to')}/>
     </div>
   );
 }

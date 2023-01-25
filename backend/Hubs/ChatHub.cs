@@ -11,12 +11,18 @@ namespace backend.Hubs {
         {
             this.dbContext = dbContext;
         }
-        public async Task SendMessage(int from, int to, string message)
+        public async Task SendMessage(string from, string to, string message)
         {
             Console.WriteLine($"{from}: {message}");
+
+            int fromInt;
+            int toInt;
+            Int32.TryParse(from, out fromInt);
+            Int32.TryParse(to, out toInt);
+
             Message newMessage = new Message{
-                From=from,
-                To=to,
+                From=fromInt,
+                To=toInt,
                 Text=message
             };
 
