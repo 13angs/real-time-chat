@@ -122,6 +122,9 @@ function ChatMessage({userId, to}) {
   }, [messUrl, chatUrl, userId, to])
 
   const handleSubmit = (event) => {
+    // if user not selected alert the message (Please select the user)
+    if(!to){alert('Please select the user!')}
+    
     event.preventDefault();
     connection.invoke("SendMessage", userId, to, currentMessage);
     setCurrentMessage('');

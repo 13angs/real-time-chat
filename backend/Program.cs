@@ -31,13 +31,13 @@ builder.Services.AddDbContext<BackendDbContext>(options =>
 });
 
 // configure controller to use Newtonsoft as a default serializer
-builder.Services.AddControllers()
-    .AddNewtonsoftJson(options =>
-        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft
-            .Json.ReferenceLoopHandling.Ignore)
-                .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
-                    = new DefaultContractResolver()
-);
+// builder.Services.AddControllers()
+//     .AddNewtonsoftJson(options =>
+//         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft
+//             .Json.ReferenceLoopHandling.Ignore)
+//                 .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
+//                     = new DefaultContractResolver()
+// );
 
 builder.Services.AddSignalR();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);

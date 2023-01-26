@@ -20,10 +20,15 @@ namespace backend.Hubs {
             Int32.TryParse(from, out fromInt);
             Int32.TryParse(to, out toInt);
 
+            User? user = dbContext.Users
+                .FirstOrDefault(u => u.Id == fromInt);
+
             Message newMessage = new Message{
                 From=fromInt,
                 To=toInt,
-                Text=message
+                Text=message,
+                UserId=user!.Id,
+                User=user
             };
 
             dbContext.Messages.Add(newMessage);
