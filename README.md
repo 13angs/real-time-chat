@@ -2,7 +2,13 @@
 
 ## Run the project
 
-1. run the project using `docker-compose`
+1. build the images
+
+```bash
+docker compose build
+```
+
+2. run the project using `docker-compose`
 
 ```bash
 docker compose up
@@ -12,13 +18,8 @@ docker compose up
 docker-compose up
 ```
 
-2. navigate to `http://localhost:3000/chat`
+3. navigate to `http://localhost:3000`
 
-3. open the same in another tab
-
-4. try typing on one of theme
-
-5. see if the text exist on both tab or not
 
 ## To develop the project
 

@@ -19,14 +19,19 @@ const router = createBrowserRouter([
   },
   {
     path: routes.chat.path,
-    element: 
-    <Protected isSignedIn={userId}>
-      <ChatPage userId={userId} />
-    </Protected>
+    element:
+      <Protected isSignedIn={userId}>
+        <ChatPage userId={userId} />
+      </Protected>
   },
   {
     path: "/",
-    element: <RegisterPage />,
+    element:
+      <Protected isSignedIn={userId}>
+        <div>
+          <h1>You already logged in</h1>
+        </div>
+      </Protected>
   },
 ]);
 
