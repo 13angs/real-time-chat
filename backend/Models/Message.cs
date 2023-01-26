@@ -11,5 +11,9 @@ namespace backend.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [JsonProperty("id")]
         public string? Id { get; set; }
+        public int UserId { get; set; }
+
+        [System.Text.Json.Serialization.JsonIgnore]
+        public User? User { get; set; }
     }
 }
