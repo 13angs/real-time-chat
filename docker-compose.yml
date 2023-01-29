@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   api:
-    image: real-time-chat-api:latest
+    image: 13angs/real-time-chat-api:latest
     build: 
       context: ./backend
       dockerfile: ./Dockerfile
@@ -13,7 +13,7 @@ services:
         source: ./data
         target: /backend/data
   app:
-    image: real-time-chat:latest
+    image: 13angs/real-time-chat:latest
     build: 
       context: ./frontend
       dockerfile: ./Dockerfile

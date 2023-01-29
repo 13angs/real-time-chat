@@ -1,7 +1,7 @@
 # initial stage
 FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine AS base
-LABEL Maintainer="13angs" \
-    VERSION=v0.0.1
+# LABEL Maintainer="13angs" \
+#     VERSION=v0.0.1
 WORKDIR /backend
 ENV ASPNETCORE_URLS http://+:5000
 EXPOSE 5000
