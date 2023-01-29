@@ -3,9 +3,12 @@ name: real-time-chat-api
 on:
   pull_request:
     branches:
-      - release
-    paths:
-      - 'backend/**'
+      - main
+  push:
+    branches:
+      - main
+    # paths:
+    #   - 'backend/**'
   
 jobs:
   build:
