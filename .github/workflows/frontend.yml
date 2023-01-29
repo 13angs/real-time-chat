@@ -5,7 +5,7 @@ on:
     branches:
       - release
     paths:
-      - 'frontend/real-time-chat/**'
+      - 'frontend/**'
   
 jobs:
   deploy:
@@ -31,7 +31,7 @@ jobs:
       - name: Build and push to Dockerhub
         uses: docker/build-push-action@v3
         with:
-          context: ./frontend/real-time-chat
+          context: ./frontend
           push: true
           tags: 13angs/real-time-chat:latest
           labels: ${{ steps.meta.outputs.labels }}
