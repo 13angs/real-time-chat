@@ -1,5 +1,8 @@
 # Real-time chat
 
+[![real-time-chat](https://github.com/13angs/real-time-chat/actions/workflows/frontend.yml/badge.svg)](https://github.com/13angs/real-time-chat/actions/workflows/frontend.yml)
+[![real-time-chat-api](https://github.com/13angs/real-time-chat/actions/workflows/backend.yml/badge.svg)](https://github.com/13angs/real-time-chat/actions/workflows/backend.yml)
+
 ## Run the project
 
 1. build the images
