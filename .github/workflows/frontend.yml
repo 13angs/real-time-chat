@@ -3,9 +3,12 @@ name: real-time-chat
 on:
   pull_request:
     branches:
-      - release
-    paths:
-      - 'frontend/**'
+      - main
+  push:
+    branches:
+      - main
+    # paths:
+    #   - 'frontend/**'
   
 jobs:
   deploy:
