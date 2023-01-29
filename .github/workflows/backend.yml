@@ -4,9 +4,6 @@ on:
   pull_request:
     branches:
       - main
-  push:
-    branches:
-      - main
     # paths:
     #   - 'backend/**'
   
@@ -18,7 +15,7 @@ jobs:
     # refs: https://stackoverflow.com/questions/58139175/running-actions-in-another-directory
     defaults:
       run:
-        working-directory: ./backend/real-time-chat-api
+        working-directory: ./backend
 
     steps:
       - uses: actions/checkout@v3
