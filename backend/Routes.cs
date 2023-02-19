@@ -13,6 +13,11 @@ namespace backend
             {
                 return message.GetMessages(from, to);
             });
+            app.MapPost("/api/v1/messages", async(IMessage message, [FromBody] MessageModel model) =>
+            {
+                await message.CreateMessage(model);
+                return;
+            });
         }
 
         public static void User(WebApplication app)

@@ -1,3 +1,4 @@
+using backend.DTOs;
 using backend.Exceptions;
 using backend.Interfaces;
 using backend.Models;
@@ -12,6 +13,41 @@ namespace backend.Services
         public MessageService(BackendDbContext dbContext)
         {
             this.dbContext = dbContext;
+        }
+
+        public async Task CreateMessage(MessageModel model)
+        {
+            // Find the user associated with the "from" parameter
+            User? user = dbContext.Users
+                .FirstOrDefault(u => u.Id == model.From);
+
+            if(user == null)
+                throw new ErrorResponseException(
+                    StatusCodes.Status404NotFound,
+                    $"User with id {model.From} not found",
+                    new List<Error>()
+                );
+
+            // Create a new message object with the specified data
+            Message newMessage = new Message
+            {
+                From = model.From,
+                To = model.To,
+                Text = model.Text,
+                UserId = user!.Id,
+                User = user
+            };
+
+            // Add the new message to the database and save changes
+            dbContext.Messages.Add(newMessage);
+            int result = await dbContext.SaveChangesAsync();
+
+            if (result < 1)
+                throw new ErrorResponseException(
+                    StatusCodes.Status500InternalServerError,
+                    $"Failed creating message",
+                    new List<Error>()
+                );
         }
 
         //Define the GetMessages method that takes in a from and to parameter and returns an IEnumerable<Message> instance
@@ -48,5 +84,6 @@ namespace backend.Services
             });
             return messages;
         }
+
     }
 }
