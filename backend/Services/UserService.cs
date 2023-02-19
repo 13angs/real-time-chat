@@ -1,5 +1,6 @@
 using AutoMapper;
 using backend.DTOs;
+using backend.Exceptions;
 using backend.Interfaces;
 using backend.Models;
 using Microsoft.EntityFrameworkCore;
@@ -20,50 +21,55 @@ namespace backend.Services
         }
         public async Task<User> CreateUser(UserModel model)
         {
-            try{
-                // find the existing user
-                User? user = await dbContext.Users.FirstOrDefaultAsync(u => u.Name == model.Name)!;
+            // find the existing user
+            User? user = await dbContext.Users.FirstOrDefaultAsync(u => u.Name == model.Name)!;
 
-                // if user exist
-                // throw the error
-                if(user != null)
-                    throw new Exception($"User with name {model.Name} exist!");
+            if (user != null)
+                throw new ErrorResponseException(
+                    StatusCodes.Status409Conflict,
+                    $"User with name {model.Name} exist!",
+                    new List<Error>()
+                );
+            user = new User();
+            mapper.Map<UserModel, User>(model, user);
 
-                // if not exist
-                // create a new user
-                user = new User();
-                mapper.Map<UserModel, User>(model, user);
+            dbContext.Users.Add(user);
+            int result = await dbContext.SaveChangesAsync();
 
-                dbContext.Users.Add(user);
-                await dbContext.SaveChangesAsync();
-
-                logger.LogInformation("User created!");
-                return user;
-
-            }catch (Exception e){
-                logger.LogError(e.Message);
-                throw new Exception();
+            if (result < 1)
+            {
+                // rollback the changes
+                dbContext.Entry(user).Reload();
+                throw new ErrorResponseException(
+                    StatusCodes.Status500InternalServerError,
+                    $"Failed saving user in db",
+                    new List<Error>()
+                );
             }
+
+            logger.LogInformation("User created!");
+            return user;
         }
-    
+
         public IEnumerable<User> GetUsers()
         {
             return dbContext.Users;
         }
-    
+
         public async Task<User> GetUser(int id)
         {
-            try{
-                User? user = await dbContext.Users
-                    .FirstOrDefaultAsync(u => u.Id == id);
-                
-                if(user != null)
-                    return user;
-                throw new Exception("User not found");
-            }catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+
+            User? user = await dbContext.Users
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            if (user == null)
+                throw new ErrorResponseException(
+                    StatusCodes.Status404NotFound,
+                    $"User with id {id} not found!",
+                    new List<Error>()
+                );
+
+            return user;
         }
     }
 }

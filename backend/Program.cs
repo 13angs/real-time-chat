@@ -1,11 +1,11 @@
 // configure the SignalR in the startup class
 using backend;
+using backend.Exceptions;
 using backend.Hubs;
 using backend.Interfaces;
 using backend.Models;
 using backend.Services;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 IConfiguration configuration = builder.Configuration;
@@ -57,6 +57,8 @@ Routes.Login(app);
 app.MapHub<ChatHub>("/hub/chat");
 
 app.UseCors(configuration["CorsName"]!);
+
+app.UseResponseExceptionHandler();
 
 
 // migrate the database on startup

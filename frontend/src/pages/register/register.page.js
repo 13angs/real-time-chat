@@ -28,7 +28,8 @@ const RegisterPage = () => {
         setUserName('')
       }
     }catch (err){
-      alert(`User with name ${userName} exist!`)
+      if(err.response.status === 409) {alert(`${err.response.data['message']}`)}
+      else{alert(err.response.data)}
     }
   }
 
