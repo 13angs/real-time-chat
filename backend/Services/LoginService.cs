@@ -14,8 +14,11 @@ namespace backend.Services
         {
             this.context = context;
         }
+
+        //Define the Login method that takes in a userId parameter and returns a LoginModel instance
         public async Task<LoginModel> Login(int userId)
         {
+            //Find the user with the provided id in the Users table in the database
             User? user = await context.Users
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
@@ -25,6 +28,8 @@ namespace backend.Services
                     Id = user.Id,
                     Message = "Successfully login!"
                 };
+            
+            //If no user with the provided id exists, throw an exception
             throw new ErrorResponseException(
                 StatusCodes.Status404NotFound,
                 "Login failed",
