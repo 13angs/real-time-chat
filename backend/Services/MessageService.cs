@@ -1,6 +1,5 @@
 using backend.Interfaces;
 using backend.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services
 {
@@ -24,9 +23,8 @@ namespace backend.Services
                 
                 // get the message by user.id and to
                 IEnumerable<Message> messages = dbContext.Messages
-                    .Where(m => m.From == user.Id &&
-                        m.To == to
-                    );
+                    .Where(m => (m.From == user.Id && m.To == to) ||
+                                m.From == to && m.To == user.Id);
 
                 messages = messages.Select(m => new Message{
                     Id=m.Id,
